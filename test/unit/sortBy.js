@@ -1,6 +1,8 @@
 var assert = require('assert');
 
-var R = require('..');
+var identity = requireR('identity');
+var prop = requireR('prop');
+var sortBy = requireR('sortBy');
 
 
 var albums = [
@@ -21,14 +23,14 @@ var albums = [
 
 describe('sortBy', function() {
   it('sorts by a simple property of the objects', function() {
-    var sortedAlbums = R.sortBy(R.prop('title'), albums);
+    var sortedAlbums = sortBy(prop('title'), albums);
     assert.strictEqual(sortedAlbums.length, albums.length);
     assert.strictEqual(sortedAlbums[0].title, 'A Farewell to Kings');
     assert.strictEqual(sortedAlbums[11].title, 'Timeout');
   });
 
   it('is curried', function() {
-    var sorter = R.sortBy(R.prop('title'));
+    var sorter = sortBy(prop('title'));
     var sortedAlbums = sorter(albums);
     assert.strictEqual(sortedAlbums.length, albums.length);
     assert.strictEqual(sortedAlbums[0].title, 'A Farewell to Kings');
@@ -38,14 +40,14 @@ describe('sortBy', function() {
   it('preserves object identity', function() {
     var a = {value: 'a'};
     var b = {value: 'b'};
-    var result = R.sortBy(R.prop('value'), [b, a]);
+    var result = sortBy(prop('value'), [b, a]);
     assert.strictEqual(result[0], a);
     assert.strictEqual(result[1], b);
   });
 
   it('sorts array-like object', function() {
     var args = (function() { return arguments; }('c', 'a', 'b'));
-    var result = R.sortBy(R.identity, args);
+    var result = sortBy(identity, args);
     assert.strictEqual(result[0], 'a');
     assert.strictEqual(result[1], 'b');
     assert.strictEqual(result[2], 'c');

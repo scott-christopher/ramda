@@ -1,11 +1,11 @@
 var assert = require('assert');
 
-var R = require('..');
+var unary = requireR('unary');
 
 
 describe('unary', function() {
   it('turns multiple-argument function into unary one', function() {
-    R.unary(function(x, y, z) {
+    unary(function(x, y, z) {
       assert.strictEqual(arguments.length, 1);
       assert.strictEqual(typeof y, 'undefined');
       assert.strictEqual(typeof z, 'undefined');
@@ -13,7 +13,7 @@ describe('unary', function() {
   });
 
   it('initial argument is passed through normally', function() {
-    R.unary(function(x, y, z) {
+    unary(function(x, y, z) {
       assert.strictEqual(x, 10);
       void z;
     })(10, 20, 30);

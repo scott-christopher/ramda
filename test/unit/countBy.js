@@ -1,6 +1,8 @@
 var assert = require('assert');
 
-var R = require('..');
+var countBy = requireR('countBy');
+var identity = requireR('identity');
+var prop = requireR('prop');
 
 
 var albums = [
@@ -25,7 +27,7 @@ var derivedGenre = (function() {
     Metal: 'Rock'  /*, etc */
   };
   return function(album) {
-    var genre = R.prop('genre', album);
+    var genre = prop('genre', album);
     return remap[genre] || genre;
   };
 }());
@@ -33,26 +35,26 @@ var derivedGenre = (function() {
 
 describe('countBy', function() {
   it('counts by a simple property of the objects', function() {
-    assert.deepEqual(R.countBy(R.prop('genre'), albums), {
+    assert.deepEqual(countBy(prop('genre'), albums), {
       Baroque: 2, Rock: 2, Jazz: 2, Romantic: 1, Metal: 1, Modern: 1, Broadway: 1, Folk: 1, Classical: 1
     });
   });
 
   it('counts by a more complex function on the objects', function() {
-    assert.deepEqual(R.countBy(derivedGenre, albums), {
+    assert.deepEqual(countBy(derivedGenre, albums), {
       Classical: 5, Rock: 3, Jazz: 2, Broadway: 1, Folk: 1
     });
   });
 
   it('is curried', function() {
-    var counter = R.countBy(R.prop('genre'));
+    var counter = countBy(prop('genre'));
     assert.deepEqual(counter(albums), {
       Baroque: 2, Rock: 2, Jazz: 2, Romantic: 1, Metal: 1, Modern: 1, Broadway: 1, Folk: 1, Classical: 1
     });
   });
 
   it('ignores inherited properties', function() {
-    var result = R.countBy(R.identity, ['abc', 'toString']);
+    var result = countBy(identity, ['abc', 'toString']);
     assert.strictEqual(result.abc, 1);
     assert.strictEqual(result.toString, 1);
   });

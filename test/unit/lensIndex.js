@@ -1,11 +1,14 @@
 var assert = require('assert');
 
-var R = require('..');
+var add = requireR('add');
+var compose = requireR('compose');
+var lensIndex = requireR('lensIndex');
+var map = requireR('map');
 
 
 describe('lensIndex', function() {
 
-  var headOf = R.lensIndex(0);
+  var headOf = lensIndex(0);
 
   it('retrieves the nth value from an array as defined by the `n` parameter', function() {
     assert.strictEqual(headOf([10, 20, 30, 40]), 10);
@@ -35,11 +38,11 @@ describe('lensIndex', function() {
   });
 
   it('curries map and set and modifies with composed lens', function() {
-    var headPlus3 = R.compose(headOf.map(R.add(1)), headOf.map(R.add(2)));
+    var headPlus3 = compose(headOf.map(add(1)), headOf.map(add(2)));
     assert.deepEqual(headPlus3([-2, 2, 3]), [1, 2, 3]);
-    var set0Plus1 = R.compose(headOf.map(R.add(1)), headOf.set(0));
+    var set0Plus1 = compose(headOf.map(add(1)), headOf.set(0));
     assert.deepEqual(set0Plus1([-2, 2, 3]), [1, 2, 3]);
-    var mapHeadPlus3 = R.map(headPlus3);
+    var mapHeadPlus3 = map(headPlus3);
     assert.deepEqual(mapHeadPlus3([[-2, 2, 3], [-1, 2, 3]]), [[1, 2, 3], [2, 2, 3]]);
   });
 });

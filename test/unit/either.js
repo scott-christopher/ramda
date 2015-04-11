@@ -1,13 +1,13 @@
 var assert = require('assert');
 
-var R = require('..');
+var either = requireR('either');
 
 
 describe('either', function() {
   it('combines two boolean-returning functions into one', function() {
     var even = function(x) {return x % 2 === 0;};
     var gt10 = function(x) {return x > 10;};
-    var f = R.either(even, gt10);
+    var f = either(even, gt10);
     assert.strictEqual(f(8), true);
     assert.strictEqual(f(13), true);
     assert.strictEqual(f(7), false);
@@ -16,7 +16,7 @@ describe('either', function() {
   it('accepts functions that take multiple parameters', function() {
     var between = function(a, b, c) {return a < b && b < c;};
     var total20 = function(a, b, c) {return a + b + c === 20;};
-    var f = R.either(between, total20);
+    var f = either(between, total20);
     assert.strictEqual(f(4, 5, 8), true);
     assert.strictEqual(f(12, 2, 6), true);
     assert.strictEqual(f(7, 5, 1), false);
@@ -26,14 +26,14 @@ describe('either', function() {
     var T = function() { return true; };
     var Z = function() { effect = 'Z got evaluated'; };
     var effect = 'not evaluated';
-    R.either(T, Z);
+    either(T, Z);
     assert.strictEqual(effect, 'not evaluated');
   });
 
   it('is curried', function() {
     var even = function(x) {return x % 2 === 0;};
     var gt10 = function(x) {return x > 10;};
-    var evenOr = R.either(even);
+    var evenOr = either(even);
     assert.strictEqual(typeof evenOr(gt10), 'function');
     assert.strictEqual(evenOr(gt10)(11), true);
     assert.strictEqual(evenOr(gt10)(9), false);

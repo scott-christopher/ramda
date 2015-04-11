@@ -1,11 +1,11 @@
 var assert = require('assert');
 
-var R = require('..');
+var empty = requireR('empty');
 
 
 describe('empty', function() {
   it('returns an empty list', function() {
-    assert.deepEqual(R.empty([1, 2, 3]), []);
+    assert.deepEqual(empty([1, 2, 3]), []);
   });
 
 });

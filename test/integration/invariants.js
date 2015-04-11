@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var R = require('../../dist/ramda');
 
 
 describe('invariants', function() {

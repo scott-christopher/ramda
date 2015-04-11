@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var R = require('..');
+var find = requireR('find');
+var into = requireR('into');
 
 
 describe('find', function() {
@@ -11,40 +12,40 @@ describe('find', function() {
   var gt100 = function(x) { return x > 100; };
   var isStr = function(x) { return typeof x === 'string'; };
   var xGt100 = function(o) { return o && o.x > 100; };
-  var intoArray = R.into([]);
+  var intoArray = into([]);
 
   it('returns the first element that satisfies the predicate', function() {
-    assert.strictEqual(R.find(even, a), 10);
-    assert.strictEqual(R.find(gt100, a), 200);
-    assert.strictEqual(R.find(isStr, a), 'cow');
-    assert.strictEqual(R.find(xGt100, a), obj2);
+    assert.strictEqual(find(even, a), 10);
+    assert.strictEqual(find(gt100, a), 200);
+    assert.strictEqual(find(isStr, a), 'cow');
+    assert.strictEqual(find(xGt100, a), obj2);
   });
 
   it('transduces the first element that satisfies the predicate into an array', function() {
-    assert.deepEqual(intoArray(R.find(even), a), [10]);
-    assert.deepEqual(intoArray(R.find(gt100), a), [200]);
-    assert.deepEqual(intoArray(R.find(isStr), a), ['cow']);
-    assert.deepEqual(intoArray(R.find(xGt100), a), [obj2]);
+    assert.deepEqual(intoArray(find(even), a), [10]);
+    assert.deepEqual(intoArray(find(gt100), a), [200]);
+    assert.deepEqual(intoArray(find(isStr), a), ['cow']);
+    assert.deepEqual(intoArray(find(xGt100), a), [obj2]);
   });
 
   it('returns `undefined` when no element satisfies the predicate', function() {
-    assert.strictEqual(R.find(even, ['zing']), undefined);
+    assert.strictEqual(find(even, ['zing']), undefined);
   });
 
   it('returns `undefined` in array when no element satisfies the predicate into an array', function() {
-    assert.deepEqual(intoArray(R.find(even), ['zing']), [undefined]);
+    assert.deepEqual(intoArray(find(even), ['zing']), [undefined]);
   });
 
   it('returns `undefined` when given an empty list', function() {
-    assert.strictEqual(R.find(even, []), undefined);
+    assert.strictEqual(find(even, []), undefined);
   });
 
   it('returns `undefined` into an array when given an empty list', function() {
-    assert.deepEqual(intoArray(R.find(even), []), [undefined]);
+    assert.deepEqual(intoArray(find(even), []), [undefined]);
   });
 
   it('is curried', function() {
-    assert.strictEqual(typeof R.find(even), 'function');
-    assert.strictEqual(R.find(even)(a), 10);
+    assert.strictEqual(typeof find(even), 'function');
+    assert.strictEqual(find(even)(a), 10);
   });
 });

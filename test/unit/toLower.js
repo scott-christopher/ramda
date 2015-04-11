@@ -1,10 +1,10 @@
 var assert = require('assert');
 
-var R = require('..');
+var toLower = requireR('toLower');
 
 
 describe('toLower', function() {
   it('returns the lower-case equivalent of the input string', function() {
-    assert.strictEqual(R.toLower('XYZ'), 'xyz');
+    assert.strictEqual(toLower('XYZ'), 'xyz');
   });
 });

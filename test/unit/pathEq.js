@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var pathEq = requireR('pathEq');
 
 
 describe('pathEq', function() {
@@ -13,29 +13,29 @@ describe('pathEq', function() {
   };
 
   it('returns true if the path matches the value', function() {
-    assert.strictEqual(R.pathEq(['a'], 1, obj), true);
-    assert.strictEqual(R.pathEq(['b', 'ba'], '2', obj), true);
+    assert.strictEqual(pathEq(['a'], 1, obj), true);
+    assert.strictEqual(pathEq(['b', 'ba'], '2', obj), true);
   });
 
   it('returns false for non matches', function() {
-    assert.strictEqual(R.pathEq(['a'], '1', obj), false);
-    assert.strictEqual(R.pathEq(['b', 'ba'], 2, obj), false);
+    assert.strictEqual(pathEq(['a'], '1', obj), false);
+    assert.strictEqual(pathEq(['b', 'ba'], 2, obj), false);
   });
 
   it('returns false for non existing values', function() {
-    assert.strictEqual(R.pathEq(['c'], 'foo', obj), false);
-    assert.strictEqual(R.pathEq(['c', 'd'], 'foo', obj), false);
+    assert.strictEqual(pathEq(['c'], 'foo', obj), false);
+    assert.strictEqual(pathEq(['c', 'd'], 'foo', obj), false);
   });
 
   it('accepts empty path', function() {
-    assert.strictEqual(R.pathEq([], 42, {a: 1, b: 2}), false);
-    assert.strictEqual(R.pathEq([], obj, obj), true);
+    assert.strictEqual(pathEq([], 42, {a: 1, b: 2}), false);
+    assert.strictEqual(pathEq([], obj, obj), true);
   });
 
   it('has Object.is semantics', function() {
-    assert.strictEqual(R.pathEq(['value'], -0, {value: 0}), false);
-    assert.strictEqual(R.propEq(['value'], 0, {value: -0}), false);
-    assert.strictEqual(R.propEq(['value'], NaN, {value: NaN}), true);
+    assert.strictEqual(pathEq(['value'], -0, {value: 0}), false);
+    assert.strictEqual(pathEq(['value'], 0, {value: -0}), false);
+    assert.strictEqual(pathEq(['value'], NaN, {value: NaN}), true);
   });
 
 });

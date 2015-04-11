@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var partial = requireR('partial');
 
 
 describe('partial', function() {
@@ -9,16 +9,16 @@ describe('partial', function() {
   };
 
   it('caches the initially supplied left-most parameters in the generated function', function() {
-    var f = R.partial(disc, 3);
+    var f = partial(disc, 3);
     assert.strictEqual(f(7, 4), 1);
-    var g = R.partial(disc, 3, 7);
+    var g = partial(disc, 3, 7);
     assert.strictEqual(g(4), 1);
   });
 
   it('correctly reports the arity of the new function', function() {
-    var f = R.partial(disc, 3);
+    var f = partial(disc, 3);
     assert.strictEqual(f.length, 2);
-    var g = R.partial(disc, 3, 7);
+    var g = partial(disc, 3, 7);
     assert.strictEqual(g.length, 1);
   });
 });

@@ -1,17 +1,18 @@
 var assert = require('assert');
 
-var R = require('..');
+var __ = requireR('__');
+var curry = requireR('curry');
 
 
 describe('curry', function() {
   it('curries a single value', function() {
-    var f = R.curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
+    var f = curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
     var g = f(12);
     assert.strictEqual(g(3, 6, 2), 15);
   });
 
   it('curries multiple values', function() {
-    var f = R.curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
+    var f = curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
     var g = f(12, 3);
     assert.strictEqual(g(6, 2), 15);
     var h = f(12, 3, 6);
@@ -19,7 +20,7 @@ describe('curry', function() {
   });
 
   it('allows further currying of a curried function', function() {
-    var f = R.curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
+    var f = curry(function(a, b, c, d) {return (a + b * c) / d;}); // f(12, 3, 6, 2) == 15
     var g = f(12);
     assert.strictEqual(g(3, 6, 2), 15);
     var h = g(3);
@@ -28,7 +29,7 @@ describe('curry', function() {
   });
 
   it('properly reports the length of the curried function', function() {
-    var f = R.curry(function(a, b, c, d) {return (a + b * c) / d;});
+    var f = curry(function(a, b, c, d) {return (a + b * c) / d;});
     assert.strictEqual(f.length, 4);
     var g = f(12);
     assert.strictEqual(g.length, 3);
@@ -40,7 +41,7 @@ describe('curry', function() {
   it('preserves context', function() {
     var ctx = {x: 10};
     var f = function(a, b) { return a + b * this.x; };
-    var g = R.curry(f);
+    var g = curry(f);
 
     assert.strictEqual(g.call(ctx, 2, 4), 42);
     assert.strictEqual(g.call(ctx, 2).call(ctx, 4), 42);
@@ -48,8 +49,8 @@ describe('curry', function() {
 
   it('supports R.__ placeholder', function() {
     var f = function(a, b, c) { return [a, b, c]; };
-    var g = R.curry(f);
-    var _ = R.__;
+    var g = curry(f);
+    var _ = __;
 
     assert.deepEqual(g(1)(2)(3), [1, 2, 3]);
     assert.deepEqual(g(1)(2, 3), [1, 2, 3]);
@@ -81,7 +82,7 @@ describe('curry', function() {
       void c;
       return Array.prototype.slice.call(arguments);
     };
-    var g = R.curry(f);
+    var g = curry(f);
 
     assert.deepEqual(g(1, 2, 3), [1, 2, 3]);
     assert.deepEqual(g(1, 2, 3, 4), [1, 2, 3, 4]);

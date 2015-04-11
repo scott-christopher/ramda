@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var R = require('..');
+var add = requireR('add');
+var invoke = requireR('invoke');
 
 
 describe('invoke', function() {
@@ -11,19 +12,19 @@ describe('invoke', function() {
     var barney = {first: 'Barney', last: 'Rubble', getName: function() {
       return this.first + ' ' + this.last;
     }};
-    var gName = R.invoke('getName', []);
+    var gName = invoke('getName', []);
     assert.strictEqual(typeof gName, 'function');
     assert.strictEqual(gName(fred), 'Fred Flintstone');
     assert.strictEqual(gName(barney), 'Barney Rubble');
   });
 
   it('passes arguments appropriately when not curried', function() {
-    assert.strictEqual(R.invoke('add', [3, 6], R), 9);
+    assert.strictEqual(invoke('add', [3, 6], { add: add }), 9);
   });
 
   it('invokes the function with no arguments when no extra params are supplied', function() {
     var obj = {f: function() { return 'called f'; }};
-    assert.strictEqual(R.invoke('f', [], obj), 'called f');
+    assert.strictEqual(invoke('f', [], obj), 'called f');
   });
 
   it('applies additional arguments to the function', function() {
@@ -38,7 +39,7 @@ describe('invoke', function() {
     var p1 = new Point(10, 20);
 
 
-    var moveBy = R.invoke('moveBy');
+    var moveBy = invoke('moveBy');
     moveBy([5, 7], p1);
     assert.strictEqual(p1.x, 15);
     assert.strictEqual(p1.y, 27);

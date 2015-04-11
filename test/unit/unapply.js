@@ -1,11 +1,13 @@
 var assert = require('assert');
 
-var R = require('..');
+var apply = requireR('apply');
+var identity = requireR('identity');
+var unapply = requireR('unapply');
 
 
 describe('unapply', function() {
   it('returns a function which is always passed one argument', function() {
-    var fn = R.unapply(function() { return arguments.length; });
+    var fn = unapply(function() { return arguments.length; });
     assert.strictEqual(fn(), 1);
     assert.strictEqual(fn('x'), 1);
     assert.strictEqual(fn('x', 'y'), 1);
@@ -13,7 +15,7 @@ describe('unapply', function() {
   });
 
   it('forwards arguments to decorated function as an array', function() {
-    var fn = R.unapply(function(xs) { return '[' + xs + ']'; });
+    var fn = unapply(function(xs) { return '[' + xs + ']'; });
     assert.strictEqual(fn(), '[]');
     assert.strictEqual(fn(2), '[2]');
     assert.strictEqual(fn(2, 4), '[2,4]');
@@ -21,7 +23,7 @@ describe('unapply', function() {
   });
 
   it('returns a function with length 0', function() {
-    var fn = R.unapply(R.identity);
+    var fn = unapply(identity);
     assert.strictEqual(fn.length, 0);
   });
 
@@ -32,7 +34,7 @@ describe('unapply', function() {
     };
 
     f = Math.max;
-    g = R.unapply(R.apply(f));
+    g = unapply(apply(f));
     n = 0;
     while (++n <= 100) {
       a = rand(); b = rand(); c = rand(); d = rand(); e = rand();
@@ -40,7 +42,7 @@ describe('unapply', function() {
     }
 
     f = function(xs) { return '[' + xs + ']'; };
-    g = R.apply(R.unapply(f));
+    g = apply(unapply(f));
     n = 0;
     while (++n <= 100) {
       a = rand(); b = rand(); c = rand(); d = rand(); e = rand();

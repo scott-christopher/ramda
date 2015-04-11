@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var mapObj = requireR('mapObj');
 
 
 describe('mapObj', function() {
@@ -8,6 +8,6 @@ describe('mapObj', function() {
 
   it('runs the given function over each of the object properties', function() {
     var obj = {a: 1, b: 2, c: 3};
-    assert.deepEqual(R.mapObj(square, obj), {a: 1, b: 4, c: 9});
+    assert.deepEqual(mapObj(square, obj), {a: 1, b: 4, c: 9});
   });
 });

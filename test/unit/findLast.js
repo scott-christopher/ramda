@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var R = require('..');
+var findLast = requireR('findLast');
+var into = requireR('into');
 
 
 describe('findLast', function() {
@@ -11,40 +12,40 @@ describe('findLast', function() {
   var gt100 = function(x) { return x > 100; };
   var isStr = function(x) { return typeof x === 'string'; };
   var xGt100 = function(o) { return o && o.x > 100; };
-  var intoArray = R.into([]);
+  var intoArray = into([]);
 
   it('returns the index of the last element that satisfies the predicate', function() {
-    assert.strictEqual(R.findLast(even, a), 0);
-    assert.strictEqual(R.findLast(gt100, a), 300);
-    assert.strictEqual(R.findLast(isStr, a), 'cow');
-    assert.strictEqual(R.findLast(xGt100, a), obj2);
+    assert.strictEqual(findLast(even, a), 0);
+    assert.strictEqual(findLast(gt100, a), 300);
+    assert.strictEqual(findLast(isStr, a), 'cow');
+    assert.strictEqual(findLast(xGt100, a), obj2);
   });
 
   it('returns the index of the last element that satisfies the predicate into an array', function() {
-    assert.deepEqual(intoArray(R.findLast(even), a), [0]);
-    assert.deepEqual(intoArray(R.findLast(gt100), a), [300]);
-    assert.deepEqual(intoArray(R.findLast(isStr), a), ['cow']);
-    assert.deepEqual(intoArray(R.findLast(xGt100), a), [obj2]);
+    assert.deepEqual(intoArray(findLast(even), a), [0]);
+    assert.deepEqual(intoArray(findLast(gt100), a), [300]);
+    assert.deepEqual(intoArray(findLast(isStr), a), ['cow']);
+    assert.deepEqual(intoArray(findLast(xGt100), a), [obj2]);
   });
 
   it('returns `undefined` when no element satisfies the predicate', function() {
-    assert.strictEqual(R.findLast(even, ['zing']), undefined);
+    assert.strictEqual(findLast(even, ['zing']), undefined);
   });
 
   it('returns `undefined` into an array when no element satisfies the predicate', function() {
-    assert.deepEqual(intoArray(R.findLast(even), ['zing']), [undefined]);
+    assert.deepEqual(intoArray(findLast(even), ['zing']), [undefined]);
   });
 
   it('works when the first element matches', function() {
-    assert.strictEqual(R.findLast(even, [2, 3, 5]), 2);
+    assert.strictEqual(findLast(even, [2, 3, 5]), 2);
   });
 
   it('does not go into an infinite loop on an empty array', function() {
-    assert.strictEqual(R.findLast(even, []), undefined);
+    assert.strictEqual(findLast(even, []), undefined);
   });
 
   it('is curried', function() {
-    assert.strictEqual(typeof R.findLast(even), 'function');
-    assert.strictEqual(R.findLast(even)(a), 0);
+    assert.strictEqual(typeof findLast(even), 'function');
+    assert.strictEqual(findLast(even)(a), 0);
   });
 });

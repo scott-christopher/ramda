@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var R = require('..');
+var findIndex = requireR('findIndex');
+var into = requireR('into');
 
 
 describe('findIndex', function() {
@@ -11,33 +12,33 @@ describe('findIndex', function() {
   var gt100 = function(x) { return x > 100; };
   var isStr = function(x) { return typeof x === 'string'; };
   var xGt100 = function(o) { return o && o.x > 100; };
-  var intoArray = R.into([]);
+  var intoArray = into([]);
 
   it('returns the index of the first element that satisfies the predicate', function() {
-    assert.strictEqual(R.findIndex(even, a), 1);
-    assert.strictEqual(R.findIndex(gt100, a), 8);
-    assert.strictEqual(R.findIndex(isStr, a), 3);
-    assert.strictEqual(R.findIndex(xGt100, a), 10);
+    assert.strictEqual(findIndex(even, a), 1);
+    assert.strictEqual(findIndex(gt100, a), 8);
+    assert.strictEqual(findIndex(isStr, a), 3);
+    assert.strictEqual(findIndex(xGt100, a), 10);
   });
 
   it('returns the index of the first element that satisfies the predicate into an array', function() {
-    assert.deepEqual(intoArray(R.findIndex(even), a), [1]);
-    assert.deepEqual(intoArray(R.findIndex(gt100), a), [8]);
-    assert.deepEqual(intoArray(R.findIndex(isStr), a), [3]);
-    assert.deepEqual(intoArray(R.findIndex(xGt100), a), [10]);
+    assert.deepEqual(intoArray(findIndex(even), a), [1]);
+    assert.deepEqual(intoArray(findIndex(gt100), a), [8]);
+    assert.deepEqual(intoArray(findIndex(isStr), a), [3]);
+    assert.deepEqual(intoArray(findIndex(xGt100), a), [10]);
   });
 
   it('returns -1 when no element satisfies the predicate', function() {
-    assert.strictEqual(R.findIndex(even, ['zing']), -1);
-    assert.strictEqual(R.findIndex(even, []), -1);
+    assert.strictEqual(findIndex(even, ['zing']), -1);
+    assert.strictEqual(findIndex(even, []), -1);
   });
 
   it('returns -1 in array when no element satisfies the predicate into an array', function() {
-    assert.deepEqual(intoArray(R.findIndex(even), ['zing']), [-1]);
+    assert.deepEqual(intoArray(findIndex(even), ['zing']), [-1]);
   });
 
   it('is curried', function() {
-    assert.strictEqual(typeof R.findIndex(even), 'function');
-    assert.strictEqual(R.findIndex(even)(a), 1);
+    assert.strictEqual(typeof findIndex(even), 'function');
+    assert.strictEqual(findIndex(even)(a), 1);
   });
 });

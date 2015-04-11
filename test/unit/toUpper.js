@@ -1,10 +1,10 @@
 var assert = require('assert');
 
-var R = require('..');
+var toUpper = requireR('toUpper');
 
 
 describe('toUpper', function() {
   it('returns the upper-case equivalent of the input string', function() {
-    assert.strictEqual(R.toUpper('abc'), 'ABC');
+    assert.strictEqual(toUpper('abc'), 'ABC');
   });
 });

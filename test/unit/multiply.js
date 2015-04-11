@@ -1,15 +1,15 @@
 var assert = require('assert');
 
-var R = require('..');
+var multiply = requireR('multiply');
 
 
 describe('multiply', function() {
   it('adds together two numbers', function() {
-    assert.strictEqual(R.multiply(6, 7), 42);
+    assert.strictEqual(multiply(6, 7), 42);
   });
 
   it('is curried', function() {
-    var dbl = R.multiply(2);
+    var dbl = multiply(2);
     assert.strictEqual(dbl(15), 30);
   });
 });

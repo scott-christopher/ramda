@@ -1,15 +1,17 @@
 var assert = require('assert');
 
-var R = require('..');
+var lensIndex = requireR('lensIndex');
+var lensProp = requireR('lensProp');
+var pipeL = requireR('pipeL');
 
 describe('pipeL', function() {
 
-  var headLens = R.lensIndex(0);
-  var xLens = R.lensProp('x');
+  var headLens = lensIndex(0);
+  var xLens = lensProp('x');
 
-  var headThenXLens = R.pipeL(headLens, xLens);
-  var xThenHeadLens = R.pipeL(xLens, headLens);
-  var headXHeadLens = R.pipeL(headLens, xLens, headLens);
+  var headThenXLens = pipeL(headLens, xLens);
+  var xThenHeadLens = pipeL(xLens, headLens);
+  var headXHeadLens = pipeL(headLens, xLens, headLens);
 
   var objWithList = {x: [1, 2, 3]};
   var listOfObjs = [{x: 4}, {x: 5}, {x: 6}];

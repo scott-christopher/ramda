@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var hasIn = requireR('hasIn');
 
 
 describe('hasIn', function() {
@@ -8,7 +8,7 @@ describe('hasIn', function() {
   var anon = {age: 99};
 
   it('returns a function that checks the appropriate property', function() {
-    var nm = R.hasIn('name');
+    var nm = hasIn('name');
     assert.strictEqual(typeof nm, 'function');
     assert.strictEqual(nm(fred), true);
     assert.strictEqual(nm(anon), false);
@@ -19,11 +19,11 @@ describe('hasIn', function() {
     Person.prototype.age = function() {};
 
     var bob = new Person();
-    assert.strictEqual(R.hasIn('age', bob), true);
+    assert.strictEqual(hasIn('age', bob), true);
   });
 
   it('works properly when called with two arguments', function() {
-    assert.strictEqual(R.hasIn('name', fred), true);
-    assert.strictEqual(R.hasIn('name', anon), false);
+    assert.strictEqual(hasIn('name', fred), true);
+    assert.strictEqual(hasIn('name', anon), false);
   });
 });

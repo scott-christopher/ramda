@@ -1,13 +1,13 @@
 var assert = require('assert');
 
-var R = require('..');
+var propOr = requireR('propOr');
 
 
 describe('propOr', function() {
   var fred = {name: 'Fred', age: 23};
   var anon = {age: 99};
 
-  var nm = R.propOr('Unknown', 'name');
+  var nm = propOr('Unknown', 'name');
 
   it('returns a function that fetches the appropriate property', function() {
     assert.strictEqual(typeof nm, 'function');
@@ -23,6 +23,6 @@ describe('propOr', function() {
     Person.prototype.age = function() {};
 
     var bob = new Person();
-    assert.strictEqual(R.propOr(100, 'age', bob), 100);
+    assert.strictEqual(propOr(100, 'age', bob), 100);
   });
 });

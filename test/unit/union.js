@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var union = requireR('union');
 
 
 describe('union', function() {
@@ -9,15 +9,15 @@ describe('union', function() {
   var Mo = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
   var No = [{a: 3}, {a: 4}, {a: 5}, {a: 6}];
   it('combines two lists into the set of all their elements', function() {
-    assert.deepEqual(R.union(M, N), [1, 2, 3, 4, 5, 6]);
+    assert.deepEqual(union(M, N), [1, 2, 3, 4, 5, 6]);
   });
 
   it('is curried', function() {
-    assert.strictEqual(typeof R.union(M), 'function');
-    assert.deepEqual(R.union(M)(N), [1, 2, 3, 4, 5, 6]);
+    assert.strictEqual(typeof union(M), 'function');
+    assert.deepEqual(union(M)(N), [1, 2, 3, 4, 5, 6]);
   });
 
   it('does not work for non-primitives (use `unionWith`)', function() {
-    assert.strictEqual(R.union(Mo, No).length, 8);
+    assert.strictEqual(union(Mo, No).length, 8);
   });
 });

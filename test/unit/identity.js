@@ -1,16 +1,16 @@
 var assert = require('assert');
 
-var R = require('..');
+var identity = requireR('identity');
 
 
 describe('identity', function() {
   it('returns its first argument', function() {
-    assert.strictEqual(R.identity(undefined), undefined);
-    assert.strictEqual(R.identity('foo'), 'foo');
-    assert.strictEqual(R.identity('foo', 'bar'), 'foo');
+    assert.strictEqual(identity(undefined), undefined);
+    assert.strictEqual(identity('foo'), 'foo');
+    assert.strictEqual(identity('foo', 'bar'), 'foo');
   });
 
   it('has length 1', function() {
-    assert.strictEqual(R.identity.length, 1);
+    assert.strictEqual(identity.length, 1);
   });
 });

@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var containsWith = requireR('containsWith');
 
 
 describe('containsWith', function() {
@@ -9,12 +9,12 @@ describe('containsWith', function() {
   var eqA = function(r, s) { return r.a === s.a; };
 
   it('determines if an element is the list based on the predicate', function() {
-    assert.strictEqual(R.containsWith(eqA, {a: 3}, So), true);
-    assert.strictEqual(R.containsWith(eqA, {a: 3000}, So), false);
+    assert.strictEqual(containsWith(eqA, {a: 3}, So), true);
+    assert.strictEqual(containsWith(eqA, {a: 3000}, So), false);
   });
   it('is curried', function() {
-    assert.strictEqual(typeof R.containsWith(eqA), 'function');
-    assert.strictEqual(typeof R.containsWith(eqA)({a: 3}), 'function');
-    assert.strictEqual(R.containsWith(eqA)({a: 3})(Ro), true);
+    assert.strictEqual(typeof containsWith(eqA), 'function');
+    assert.strictEqual(typeof containsWith(eqA)({a: 3}), 'function');
+    assert.strictEqual(containsWith(eqA)({a: 3})(Ro), true);
   });
 });

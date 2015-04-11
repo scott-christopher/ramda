@@ -1,6 +1,9 @@
 var assert = require('assert');
 
-var R = require('..');
+var keys = requireR('keys');
+var keysIn = requireR('keysIn');
+var map = requireR('map');
+var repeat = requireR('repeat');
 
 
 describe('keysIn', function() {
@@ -11,17 +14,17 @@ describe('keysIn', function() {
   var cobj = new C();
 
   it("returns an array of the given object's keys", function() {
-    assert.deepEqual(R.keysIn(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
+    assert.deepEqual(keysIn(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
   });
 
   it("includes the given object's prototype properties", function() {
-    assert.deepEqual(R.keysIn(cobj).sort(), ['a', 'b', 'x', 'y']);
+    assert.deepEqual(keysIn(cobj).sort(), ['a', 'b', 'x', 'y']);
   });
 
   it('works for primitives', function() {
-    var result = R.map(function(val) {
-      return R.keys(val);
+    var result = map(function(val) {
+      return keys(val);
     }, [null, undefined, 55, '', true, false, NaN, Infinity, , []]);
-    assert.deepEqual(result, R.repeat([], 10));
+    assert.deepEqual(result, repeat([], 10));
   });
 });

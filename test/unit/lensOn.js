@@ -1,11 +1,11 @@
 var assert = require('assert');
 
-var R = require('..');
+var lensOn = requireR('lensOn');
 
 
 describe('lensOn', function() {
 
-  var xoLens = R.lensOn(
+  var xoLens = lensOn(
     function get(o) { return o.x; },
     function set(v) { return {x: v}; },
     {x: 1}
@@ -34,7 +34,7 @@ describe('lensOn', function() {
     var getX = function(o) { return o.x; };
     var setX = function(val) { return {x: val}; };
     var x2 = function(x) { return x * 2; };
-    var partial1 = R.lensOn(getX);
+    var partial1 = lensOn(getX);
     var partial2 = partial1(setX);
     assert.strictEqual(typeof partial1, 'function');
     assert.strictEqual(typeof partial2, 'function');

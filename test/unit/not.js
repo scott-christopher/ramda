@@ -1,12 +1,12 @@
 var assert = require('assert');
 
-var R = require('..');
+var not = requireR('not');
 
 
 describe('not', function() {
   it('reverses argument', function() {
-    assert.strictEqual(R.not(false), true);
-    assert.strictEqual(R.not(1), false);
-    assert.strictEqual(R.not(''), true);
+    assert.strictEqual(not(false), true);
+    assert.strictEqual(not(1), false);
+    assert.strictEqual(not(''), true);
   });
 });

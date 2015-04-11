@@ -1,10 +1,10 @@
 var assert = require('assert');
 
-var R = require('..');
+var defaultTo = requireR('defaultTo');
 
 describe('defaultTo', function() {
 
-  var defaultTo42 = R.defaultTo(42);
+  var defaultTo42 = defaultTo(42);
 
   it('returns the default value if input is null/undefined', function() {
     assert.strictEqual(42, defaultTo42(null));
@@ -23,8 +23,8 @@ describe('defaultTo', function() {
   });
 
   it('can be called with both arguments directly', function() {
-    assert.strictEqual(42, R.defaultTo(42, null));
-    assert.strictEqual('a real value', R.defaultTo(42, 'a real value'));
+    assert.strictEqual(42, defaultTo(42, null));
+    assert.strictEqual('a real value', defaultTo(42, 'a real value'));
   });
 
 });

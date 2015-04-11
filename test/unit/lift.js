@@ -2,28 +2,30 @@
 
 var assert = require('assert');
 
-var R = require('..');
-var Maybe = require('./shared/Maybe');
+var add = requireR('add');
+var curry = requireR('curry');
+var lift = requireR('lift');
+var Maybe = require('../shared/Maybe');
 
 
-var add3 = R.curry(function add3(a, b, c) {
+var add3 = curry(function add3(a, b, c) {
   return a + b + c;
 });
-var add4 = R.curry(function add4(a, b, c, d) {
+var add4 = curry(function add4(a, b, c, d) {
   return a + b + c + d;
 });
-var add5 = R.curry(function add5(a, b, c, d, e) {
+var add5 = curry(function add5(a, b, c, d, e) {
   return a + b + c + d + e;
 });
-var madd3 = R.lift(add3);
-var madd4 = R.lift(add4);
-var madd5 = R.lift(add5);
+var madd3 = lift(add3);
+var madd4 = lift(add4);
+var madd5 = lift(add5);
 
 
 describe('lift', function() {
 
   it('returns a function if called with just a function', function() {
-    assert.strictEqual(typeof R.lift(R.add), 'function');
+    assert.strictEqual(typeof lift(add), 'function');
   });
 
   it('produces a cross-product of array values', function() {
@@ -39,7 +41,7 @@ describe('lift', function() {
   });
 
   it('works with other functors such as "Maybe"', function() {
-    var addM = R.lift(R.add);
+    var addM = lift(add);
     assert.deepEqual(addM(Maybe.of(3), Maybe.of(5)), Maybe.of(8));
   });
 

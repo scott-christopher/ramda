@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var anyPass = requireR('anyPass');
 
 
 describe('anyPass', function() {
@@ -10,7 +10,7 @@ describe('anyPass', function() {
   var plusEq = function(w, x, y, z) { return w + x  === y + z; };
 
   it('reports whether any predicates are satisfied by a given value', function() {
-    var ok = R.anyPass([odd, gt20, lt5]);
+    var ok = anyPass([odd, gt20, lt5]);
     assert.strictEqual(ok(7), true);
     assert.strictEqual(ok(9), true);
     assert.strictEqual(ok(10), false);
@@ -20,11 +20,11 @@ describe('anyPass', function() {
   });
 
   it('does not have to be curried', function() {
-    assert.strictEqual(R.anyPass([odd, lt5], 3), true);
-    assert.strictEqual(R.anyPass([odd, lt5], 22), false);
+    assert.strictEqual(anyPass([odd, lt5], 3), true);
+    assert.strictEqual(anyPass([odd, lt5], 22), false);
   });
 
   it('reports its arity as the longest predicate length', function() {
-    assert.strictEqual(R.anyPass([odd, lt5, plusEq]).length, 4);
+    assert.strictEqual(anyPass([odd, lt5, plusEq]).length, 4);
   });
 });

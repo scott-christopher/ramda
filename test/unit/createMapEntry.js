@@ -1,14 +1,14 @@
 var assert = require('assert');
 
-var R = require('..');
+var createMapEntry = requireR('createMapEntry');
 
 
 describe('createMapEntry', function() {
   it('creates an object containing a single key:value pair', function() {
-    assert.deepEqual(R.createMapEntry('foo', 42), {foo: 42});
+    assert.deepEqual(createMapEntry('foo', 42), {foo: 42});
   });
 
   it('is curried', function() {
-    assert.deepEqual(R.createMapEntry('foo')(42), {foo: 42});
+    assert.deepEqual(createMapEntry('foo')(42), {foo: 42});
   });
 });

@@ -1,12 +1,14 @@
 var assert = require('assert');
 
-var R = require('..');
+var add = requireR('add');
+var compose = requireR('compose');
+var lensProp = requireR('lensProp');
 
 
 describe('lensProp', function() {
 
-  var phraseLens = R.lensProp('catchphrase');
-  var xLens = R.lensProp('x');
+  var phraseLens = lensProp('catchphrase');
+  var xLens = lensProp('x');
   var obj = {x: 100, y: 200, catchphrase: 'zing!'};
   function uc(s) { return s.toUpperCase(); }
 
@@ -34,9 +36,9 @@ describe('lensProp', function() {
   });
 
   it('curries map and set and modifies with composed lens', function() {
-    var xPlus3 = R.compose(xLens.map(R.add(1)), xLens.map(R.add(2)));
+    var xPlus3 = compose(xLens.map(add(1)), xLens.map(add(2)));
     assert.deepEqual(xPlus3(obj), {x: 103, y: 200, catchphrase: 'zing!'});
-    var set0Plus1 = R.compose(xLens.map(R.add(1)), xLens.set(0));
+    var set0Plus1 = compose(xLens.map(add(1)), xLens.set(0));
     assert.deepEqual(set0Plus1(obj), {x: 1, y: 200, catchphrase: 'zing!'});
   });
 });

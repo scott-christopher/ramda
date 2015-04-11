@@ -1,12 +1,12 @@
 var assert = require('assert');
 
-var R = require('..');
+var F = requireR('F');
 
 
 describe('F', function() {
   it('always returns false', function() {
-    assert.strictEqual(R.F(), false);
-    assert.strictEqual(R.F(10), false);
-    assert.strictEqual(R.F(true), false);
+    assert.strictEqual(F(), false);
+    assert.strictEqual(F(10), false);
+    assert.strictEqual(F(true), false);
   });
 });

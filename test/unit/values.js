@@ -1,6 +1,9 @@
 var assert = require('assert');
 
-var R = require('..');
+var keys = requireR('keys');
+var map = requireR('map');
+var repeat = requireR('repeat');
+var values = requireR('values');
 
 
 describe('values', function() {
@@ -11,7 +14,7 @@ describe('values', function() {
   var cobj = new C();
 
   it("returns an array of the given object's values", function() {
-    var vs = R.values(obj).sort();
+    var vs = values(obj).sort();
     var ts = [[1, 2, 3], 100, 'D', {x: 200, y: 300}, null, undefined];
     assert.strictEqual(vs.length, ts.length);
     assert.deepEqual(vs[0], ts[0]);
@@ -21,7 +24,7 @@ describe('values', function() {
     assert.strictEqual(vs[4], ts[4]);
     assert.strictEqual(vs[5], ts[5]);
 
-    assert.deepEqual(R.values({
+    assert.deepEqual(values({
       /* jshint -W001 */
       hasOwnProperty: false
       /* jshint +W001 */
@@ -29,13 +32,13 @@ describe('values', function() {
   });
 
   it("does not include the given object's prototype properties", function() {
-    assert.deepEqual(R.values(cobj), [100, 200]);
+    assert.deepEqual(values(cobj), [100, 200]);
   });
 
   it('works for primitives', function() {
-    var result = R.map(function(val) {
-      return R.keys(val);
+    var result = map(function(val) {
+      return keys(val);
     }, [null, undefined, 55, '', true, false, NaN, Infinity, , []]);
-    assert.deepEqual(result, R.repeat([], 10));
+    assert.deepEqual(result, repeat([], 10));
   });
 });

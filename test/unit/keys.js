@@ -1,6 +1,8 @@
 var assert = require('assert');
 
-var R = require('..');
+var keys = requireR('keys');
+var map = requireR('map');
+var repeat = requireR('repeat');
 
 
 describe('keys', function() {
@@ -11,11 +13,11 @@ describe('keys', function() {
   var cobj = new C();
 
   it("returns an array of the given object's own keys", function() {
-    assert.deepEqual(R.keys(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
+    assert.deepEqual(keys(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
   });
 
   it('works with hasOwnProperty override', function() {
-    assert.deepEqual(R.keys({
+    assert.deepEqual(keys({
       /* jshint -W001 */
       hasOwnProperty: false
       /* jshint +W001 */
@@ -23,13 +25,13 @@ describe('keys', function() {
   });
 
   it('works for primitives', function() {
-    var result = R.map(function(val) {
-      return R.keys(val);
+    var result = map(function(val) {
+      return keys(val);
     }, [null, undefined, 55, '', true, false, NaN, Infinity, , []]);
-    assert.deepEqual(result, R.repeat([], 10));
+    assert.deepEqual(result, repeat([], 10));
   });
 
   it("does not include the given object's prototype properties", function() {
-    assert.deepEqual(R.keys(cobj).sort(), ['a', 'b']);
+    assert.deepEqual(keys(cobj).sort(), ['a', 'b']);
   });
 });

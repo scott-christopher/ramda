@@ -2,26 +2,29 @@
 
 var assert = require('assert');
 
-var R = require('..');
-var Maybe = require('./shared/Maybe');
+var add = requireR('add');
+var curry = requireR('curry');
+var liftN = requireR('liftN');
+var reduce = requireR('reduce');
+var Maybe = require('../shared/Maybe');
 
 
 var addN = function() {
-  return R.reduce(function(a, b) { return a + b; }, 0, arguments);
+  return reduce(function(a, b) { return a + b; }, 0, arguments);
 };
-var add3 = R.curry(function add3(a, b, c) {
+var add3 = curry(function add3(a, b, c) {
   return a + b + c;
 });
 
 
 describe('liftN', function() {
 
-  var addN3 = R.liftN(3, addN);
-  var addN4 = R.liftN(4, addN);
-  var addN5 = R.liftN(5, addN);
+  var addN3 = liftN(3, addN);
+  var addN4 = liftN(4, addN);
+  var addN5 = liftN(5, addN);
 
   it('returns a function', function() {
-    assert.strictEqual(typeof R.liftN(3, add3), 'function');
+    assert.strictEqual(typeof liftN(3, add3), 'function');
   });
 
   it('limits a variadic function to the specified arity', function() {
@@ -41,13 +44,13 @@ describe('liftN', function() {
   });
 
   it('is curried', function() {
-    var f4 = R.liftN(4);
+    var f4 = liftN(4);
     assert.strictEqual(typeof f4, 'function');
     assert.deepEqual(f4(addN)([1], [2], [3], [4, 5]), [10, 11]);
   });
 
   it('works with other functors such as "Maybe"', function() {
-    var addM = R.liftN(2, R.add);
+    var addM = liftN(2, add);
     assert.deepEqual(addM(Maybe(3), Maybe(5)), Maybe(8));
   });
 });

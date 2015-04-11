@@ -1,6 +1,10 @@
 var assert = require('assert');
 
-var R = require('..');
+var add = requireR('add');
+var clone = requireR('clone');
+var compose = requireR('compose');
+var lens = requireR('lens');
+var map = requireR('map');
 
 
 describe('lens', function() {
@@ -18,13 +22,13 @@ describe('lens', function() {
   }
 
   function setPhrase(val, obj) {
-    var out = R.clone(obj);
+    var out = clone(obj);
     out.catchphrase = val;
     return out;
   }
 
-  var headOf = R.lens(getHead, setHead);
-  var phraseLens = R.lens(getPhrase, setPhrase);
+  var headOf = lens(getHead, setHead);
+  var phraseLens = lens(getPhrase, setPhrase);
 
   it('returns a function with `set` and `map` properties', function() {
     assert.strictEqual(typeof phraseLens, 'function');
@@ -60,11 +64,11 @@ describe('lens', function() {
   });
 
   it('curries map and set and modifies with composed lens', function() {
-    var headPlus3 = R.compose(headOf.map(R.add(1)), headOf.map(R.add(2)));
+    var headPlus3 = compose(headOf.map(add(1)), headOf.map(add(2)));
     assert.deepEqual(headPlus3([-2, 2, 3]), [1, 2, 3]);
-    var set0Plus1 = R.compose(headOf.map(R.add(1)), headOf.set(0));
+    var set0Plus1 = compose(headOf.map(add(1)), headOf.set(0));
     assert.deepEqual(set0Plus1([-2, 2, 3]), [1, 2, 3]);
-    var mapHeadPlus3 = R.map(headPlus3);
+    var mapHeadPlus3 = map(headPlus3);
     assert.deepEqual(mapHeadPlus3([[-2, 2, 3], [-1, 2, 3]]), [[1, 2, 3], [2, 2, 3]]);
   });
 
@@ -76,7 +80,7 @@ describe('lens', function() {
       return out;
     };
     var x2 = function(x) { return x * 2; };
-    var partial = R.lens(get1);
+    var partial = lens(get1);
     assert.strictEqual(typeof partial, 'function');
     assert.strictEqual(typeof partial(set1), 'function');
     assert.deepEqual(partial(set1)(['zeroth', 'first', 'second']), 'first');

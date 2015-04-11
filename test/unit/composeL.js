@@ -1,17 +1,21 @@
 var assert = require('assert');
 
-var R = require('..');
+var composeL = requireR('composeL');
+var identity = requireR('identity');
+var lens = requireR('lens');
+var lensIndex = requireR('lensIndex');
+var lensProp = requireR('lensProp');
 
 describe('composeL', function() {
 
-  var identityLens = R.lens(R.identity, R.identity);
-  var headLens = R.lensIndex(0);
-  var secondLens = R.lensIndex(1);
-  var xLens = R.lensProp('x');
+  var identityLens = lens(identity, identity);
+  var headLens = lensIndex(0);
+  var secondLens = lensIndex(1);
+  var xLens = lensProp('x');
 
-  var headOfXLens = R.composeL(headLens, xLens);
-  var xOfHeadLens = R.composeL(xLens, headLens);
-  var secondOfXOfHeadLens = R.composeL(secondLens, xLens, headLens);
+  var headOfXLens = composeL(headLens, xLens);
+  var xOfHeadLens = composeL(xLens, headLens);
+  var secondOfXOfHeadLens = composeL(secondLens, xLens, headLens);
 
   var objWithList = {x: [1, 2, 3]};
   var listOfObjs = [{x: 4}, {x: 5}, {x: 6}];
@@ -39,21 +43,21 @@ describe('composeL', function() {
   });
 
   it('satisfies left identity', function() {
-    var xIdentityLens = R.composeL(xLens, identityLens);
+    var xIdentityLens = composeL(xLens, identityLens);
     assert.deepEqual(xIdentityLens(objWithList), xLens(objWithList));
     assert.deepEqual(xIdentityLens.set(1, objWithList), xLens.set(1, objWithList));
   });
 
   it('satisfies right identity', function() {
-    var identityXLens = R.composeL(identityLens, xLens);
+    var identityXLens = composeL(identityLens, xLens);
     assert.deepEqual(identityXLens(objWithList), xLens(objWithList));
     assert.deepEqual(identityXLens.set(1, objWithList), xLens.set(1, objWithList));
   });
 
   it('satisfies associativity', function() {
     var source = [{x: [0, 1], y: [2, 3]}, {x: [4, 5], y: [6, 7]}];
-    var l1 = R.composeL(secondLens, R.composeL(xLens, headLens));
-    var l2 = R.composeL(R.composeL(secondLens, xLens), headLens);
+    var l1 = composeL(secondLens, composeL(xLens, headLens));
+    var l2 = composeL(composeL(secondLens, xLens), headLens);
 
     assert.strictEqual(l1(source), 1);
     assert.deepEqual(l1.set(8, source), [{x: [0, 8], y: [2, 3]}, {x: [4, 5], y: [6, 7]}]);

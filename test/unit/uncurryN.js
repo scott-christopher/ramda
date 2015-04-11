@@ -1,6 +1,8 @@
 var assert = require('assert');
 
-var R = require('..');
+var __ = requireR('__');
+var add = requireR('add');
+var uncurryN = requireR('uncurryN');
 
 
 describe('uncurryN', function() {
@@ -37,18 +39,18 @@ describe('uncurryN', function() {
   }
 
   it('accepts an arity', function() {
-    var uncurried = R.uncurryN(3, a3);
+    var uncurried = uncurryN(3, a3);
     assert.strictEqual(uncurried(1, 2, 3), 6);
   });
 
   it('returns a function of the specified arity', function() {
-    assert.strictEqual(R.uncurryN(2, a2).length, 2);
-    assert.strictEqual(R.uncurryN(3, a3).length, 3);
-    assert.strictEqual(R.uncurryN(4, a4).length, 4);
+    assert.strictEqual(uncurryN(2, a2).length, 2);
+    assert.strictEqual(uncurryN(3, a3).length, 3);
+    assert.strictEqual(uncurryN(4, a4).length, 4);
   });
 
   it('forwards extra arguments', function() {
-    var g = R.uncurryN(3, a3b);
+    var g = uncurryN(3, a3b);
 
     assert.deepEqual(g(1, 2, 3), 6);
     assert.deepEqual(g(1, 2, 3, 4), 10);
@@ -56,17 +58,17 @@ describe('uncurryN', function() {
   });
 
   it('works with ordinary uncurried functions', function() {
-    assert.strictEqual(R.uncurryN(2, function(a, b) { return a + b; })(10, 20), 30);
-    assert.strictEqual(R.uncurryN(3, function(a, b, c) { return a + b + c; })(10, 20, 30), 60);
+    assert.strictEqual(uncurryN(2, function(a, b) { return a + b; })(10, 20), 30);
+    assert.strictEqual(uncurryN(3, function(a, b, c) { return a + b + c; })(10, 20, 30), 60);
   });
 
   it('works with ramda-curried functions', function() {
-    assert.strictEqual(R.uncurryN(2, R.add)(10, 20), 30);
+    assert.strictEqual(uncurryN(2, add)(10, 20), 30);
   });
 
   it('returns a function that supports R.__ placeholder', function() {
-    var g = R.uncurryN(3, a3);
-    var _ = R.__;
+    var g = uncurryN(3, a3);
+    var _ = __;
 
     assert.deepEqual(g(1)(2)(3), 6);
     assert.deepEqual(g(1)(2, 3), 6);

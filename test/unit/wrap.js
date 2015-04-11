@@ -1,13 +1,13 @@
 var assert = require('assert');
 
-var R = require('..');
+var wrap = requireR('wrap');
 
 
 describe('wrap', function() {
   var greet = function(name) {return 'Hello ' + name;};
 
   it('allows you to modify the parameters', function() {
-    var extendedGreet = R.wrap(greet, function(gr, name) {
+    var extendedGreet = wrap(greet, function(gr, name) {
       return gr(name.toUpperCase());
     });
     assert.strictEqual(greet('joe'), 'Hello joe');
@@ -15,21 +15,21 @@ describe('wrap', function() {
   });
 
   it('allows you to modify the output', function() {
-    var extendedGreet = R.wrap(greet, function(gr, name) {
+    var extendedGreet = wrap(greet, function(gr, name) {
       return gr(name).toUpperCase();
     });
     assert.strictEqual(extendedGreet('joe'), 'HELLO JOE');
   });
 
   it('allows you to entirely replace the input function', function() {
-    var extendedGreet = R.wrap(greet, function(gr, name) {
+    var extendedGreet = wrap(greet, function(gr, name) {
       return gr('my dear ' + name) + ', how are you?';
     });
     assert.strictEqual(extendedGreet('joe'), 'Hello my dear joe, how are you?');
   });
 
   it('maintains the arity of the function that is being wrapped', function() {
-    var extendedGreet = R.wrap(greet, function(gr, name) {
+    var extendedGreet = wrap(greet, function(gr, name) {
       return gr('my dear ' + name) + ', how are you?';
     });
     assert.strictEqual(greet.length, extendedGreet.length);
@@ -38,7 +38,7 @@ describe('wrap', function() {
   it('returns a curried function', function() {
     var sideEffect;
     var add = function(a, b) {return a + b;};
-    var wrappedAdd = R.wrap(add, function(plus, a, b) {
+    var wrappedAdd = wrap(add, function(plus, a, b) {
       sideEffect = plus(a, b);
       return sideEffect;
     });

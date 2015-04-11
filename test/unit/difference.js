@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var difference = requireR('difference');
 
 
 describe('difference', function() {
@@ -13,34 +13,30 @@ describe('difference', function() {
   var Mo = [{a: 1}, {a: 2}, {a: 3}, {a: 4}];
   var No = [{a: 3}, {a: 4}, {a: 5}, {a: 6}];
   it('finds the set of all elements in the first list not contained in the second', function() {
-    assert.deepEqual(R.difference(M, N), [1, 2]);
+    assert.deepEqual(difference(M, N), [1, 2]);
   });
 
   it('does not allow duplicates in the output even if the input lists had duplicates', function() {
-    assert.deepEqual(R.difference(M2, N2), [1, 2]);
+    assert.deepEqual(difference(M2, N2), [1, 2]);
   });
 
   it('does not work for non-primitives (use `differenceWith`)', function() {
-    assert.strictEqual(R.difference(Mo, No).length, 4);
+    assert.strictEqual(difference(Mo, No).length, 4);
   });
 
   it('works for arrays of different lengths', function() {
-    assert.deepEqual(R.difference(Z, Z2), [10]);
-    assert.deepEqual(R.difference(Z2, Z), [1, 2, 7, 8]);
-  });
-
-  it('will not create a "sparse" array', function() {
-    assert.strictEqual(R.difference(M2, [3]).length, 3);
+    assert.deepEqual(difference(Z, Z2), [10]);
+    assert.deepEqual(difference(Z2, Z), [1, 2, 7, 8]);
   });
 
   it('returns an empty array if there are no different elements', function() {
-    assert.deepEqual(R.difference(M2, M), []);
-    assert.deepEqual(R.difference(M, M2), []);
-    assert.deepEqual(R.difference([], M2), []);
+    assert.deepEqual(difference(M2, M), []);
+    assert.deepEqual(difference(M, M2), []);
+    assert.deepEqual(difference([], M2), []);
   });
 
   it('is curried', function() {
-    assert.strictEqual(typeof R.difference([1, 2, 3]), 'function');
-    assert.deepEqual(R.difference([1, 2, 3])([1, 3]), [2]);
+    assert.strictEqual(typeof difference([1, 2, 3]), 'function');
+    assert.deepEqual(difference([1, 2, 3])([1, 3]), [2]);
   });
 });

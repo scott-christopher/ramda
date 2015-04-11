@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var intersectionWith = requireR('intersectionWith');
 
 
 describe('intersectionWith', function() {
@@ -8,6 +8,6 @@ describe('intersectionWith', function() {
   var So = [{a: 3}, {a: 4}, {a: 5}, {a: 6}];
   var eqA = function(r, s) { return r.a === s.a; };
   it('combines two lists into the set of all their elements based on the passed-in equality predicate', function() {
-    assert.deepEqual(R.intersectionWith(eqA, Ro, So), [{a: 3}, {a: 4}]);
+    assert.deepEqual(intersectionWith(eqA, Ro, So), [{a: 3}, {a: 4}]);
   });
 });

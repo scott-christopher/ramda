@@ -1,29 +1,32 @@
 var assert = require('assert');
 
-var R = require('..');
+var F = requireR('F');
+var filter = requireR('filter');
+var reject = requireR('reject');
+var T = requireR('T');
 
 
 describe('reject', function() {
   var even = function(x) {return x % 2 === 0;};
 
   it('reduces an array to those not matching a filter', function() {
-    assert.deepEqual(R.reject(even, [1, 2, 3, 4, 5]), [1, 3, 5]);
+    assert.deepEqual(reject(even, [1, 2, 3, 4, 5]), [1, 3, 5]);
   });
 
   it('returns an empty array if no element matches', function() {
-    assert.deepEqual(R.reject(function(x) { return x < 100; }, [1, 9, 99]), []);
+    assert.deepEqual(reject(function(x) { return x < 100; }, [1, 9, 99]), []);
   });
 
   it('returns an empty array if asked to filter an empty array', function() {
-    assert.deepEqual(R.reject(function(x) { return x > 100; }, []), []);
+    assert.deepEqual(reject(function(x) { return x > 100; }, []), []);
   });
 
   it('returns an empty array if no element matches', function() {
-    assert.deepEqual(R.reject(function(x) { return x < 100; }, [1, 9, 99]), []);
+    assert.deepEqual(reject(function(x) { return x < 100; }, [1, 9, 99]), []);
   });
 
   it('returns an empty array if asked to filter an empty array', function() {
-    assert.deepEqual(R.reject(function(x) { return x > 100; }, []), []);
+    assert.deepEqual(reject(function(x) { return x > 100; }, []), []);
   });
 
   it('dispatches to `filter` method', function() {
@@ -39,14 +42,14 @@ describe('reject', function() {
     };
 
     var m = new Just(42);
-    assert.strictEqual(R.filter(R.T, m), m);
-    assert.strictEqual(R.filter(R.F, m), Nothing.value);
-    assert.strictEqual(R.reject(R.T, m), Nothing.value);
-    assert.strictEqual(R.reject(R.F, m), m);
+    assert.strictEqual(filter(T, m), m);
+    assert.strictEqual(filter(F, m), Nothing.value);
+    assert.strictEqual(reject(T, m), Nothing.value);
+    assert.strictEqual(reject(F, m), m);
   });
 
   it('is curried', function() {
-    var odd = R.reject(even);
+    var odd = reject(even);
     assert.deepEqual(odd([1, 2, 3, 4, 5, 6, 7]), [1, 3, 5, 7]);
   });
 });

@@ -1,7 +1,9 @@
 var assert = require('assert');
 
-var R = require('..');
-var _isTransformer = require('../src/internal/_isTransformer');
+var _isTransformer = require('../../src/internal/_isTransformer');
+var groupBy = requireR('groupBy');
+var merge = requireR('merge');
+var prop = requireR('prop');
 
 
 describe('groupBy', function() {
@@ -22,7 +24,7 @@ describe('groupBy', function() {
       {name: 'Jack', score: 69}
     ];
     var byGrade = function(student) {return grade(student.score || 0);};
-    assert.deepEqual(R.groupBy(byGrade, students), {
+    assert.deepEqual(groupBy(byGrade, students), {
       A: [{name: 'Dianne', score: 99}, {name: 'Gillian', score: 91}],
       B: [{name: 'Abby', score: 84}, {name: 'Chris', score: 89}, {name: 'Irene', score: 85}],
       C: [{name: 'Brad', score: 73}, {name: 'Hannah', score: 78}],
@@ -32,7 +34,7 @@ describe('groupBy', function() {
   });
 
   it('is curried', function() {
-    var splitByType = R.groupBy(R.prop('type'));
+    var splitByType = groupBy(prop('type'));
     assert.deepEqual(splitByType([
       {type: 'A', val: 10},
       {type: 'B', val: 20},
@@ -48,16 +50,16 @@ describe('groupBy', function() {
   });
 
   it('returns an empty object if given an empty array', function() {
-    assert.deepEqual(R.groupBy(R.prop('x'), []), {});
+    assert.deepEqual(groupBy(prop('x'), []), {});
   });
 
   it('dispatches on transformer objects in list position', function() {
-    var byType = R.prop('type');
+    var byType = prop('type');
     var xf = {
       '@@transducer/init': function() { return {}; },
       '@@transducer/result': function(x) { return x; },
-      '@@transducer/step': R.merge
+      '@@transducer/step': merge
     };
-    assert.strictEqual(_isTransformer(R.groupBy(byType, xf)), true);
+    assert.strictEqual(_isTransformer(groupBy(byType, xf)), true);
   });
 });

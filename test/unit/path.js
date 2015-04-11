@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var R = require('..');
+var path = requireR('path');
 
 
 describe('path', function() {
@@ -21,34 +21,34 @@ describe('path', function() {
       i: 'I',
       j: ['J']
     };
-    assert.strictEqual(R.path(['a', 'b', 'c'], obj), 100);
-    assert.strictEqual(R.path([], obj), obj);
-    assert.strictEqual(R.path(['a', 'e', 'f', '1'], obj), 101);
-    assert.strictEqual(R.path(['j', '0'], obj), 'J');
-    assert.strictEqual(R.path(['j', '1'], obj), undefined);
-    assert.strictEqual(R.path(['a', 'b', 'c'], null), undefined);
+    assert.strictEqual(path(['a', 'b', 'c'], obj), 100);
+    assert.strictEqual(path([], obj), obj);
+    assert.strictEqual(path(['a', 'e', 'f', '1'], obj), 101);
+    assert.strictEqual(path(['j', '0'], obj), 'J');
+    assert.strictEqual(path(['j', '1'], obj), undefined);
+    assert.strictEqual(path(['a', 'b', 'c'], null), undefined);
   });
 
   it("gets a deep property's value from objects", function() {
-    assert.strictEqual(R.path(['a', 'b', 'c'], deepObject), 'c');
-    assert.strictEqual(R.path(['a'], deepObject), deepObject.a);
+    assert.strictEqual(path(['a', 'b', 'c'], deepObject), 'c');
+    assert.strictEqual(path(['a'], deepObject), deepObject.a);
   });
 
   it('returns undefined for items not found', function() {
-    assert.strictEqual(R.path(['a', 'b', 'foo'], deepObject), undefined);
-    assert.strictEqual(R.path(['bar'], deepObject), undefined);
+    assert.strictEqual(path(['a', 'b', 'foo'], deepObject), undefined);
+    assert.strictEqual(path(['bar'], deepObject), undefined);
   });
 
   it('returns undefined for null/undefined', function() {
-    assert.strictEqual(R.path(['toString'], null), undefined);
-    assert.strictEqual(R.path(['toString'], undefined), undefined);
+    assert.strictEqual(path(['toString'], null), undefined);
+    assert.strictEqual(path(['toString'], undefined), undefined);
   });
 
   it('works with falsy items', function() {
-    assert.strictEqual(R.path(['toString'], false), Boolean.prototype.toString);
+    assert.strictEqual(path(['toString'], false), Boolean.prototype.toString);
   });
 
   it('is curried', function() {
-    assert.strictEqual(R.path(['arrayVal', '0'])(deepObject), 'arr');
+    assert.strictEqual(path(['arrayVal', '0'])(deepObject), 'arr');
   });
 });
