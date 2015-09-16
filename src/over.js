@@ -1,4 +1,5 @@
 var _curry3 = require('./internal/_curry3');
+var _identityType = require('./internal/_identityType');
 
 
 /**
@@ -22,12 +23,6 @@ var _curry3 = require('./internal/_curry3');
  *
  *      R.over(headLens, R.toUpper, ['foo', 'bar', 'baz']); //=> ['FOO', 'bar', 'baz']
  */
-module.exports = (function() {
-  var Identity = function(x) {
-    return {value: x, map: function(f) { return Identity(f(x)); }};
-  };
-
-  return _curry3(function over(lens, f, x) {
-    return lens(function(y) { return Identity(f(y)); })(x).value;
-  });
-}());
+module.exports = _curry3(function over(lens, f, x) {
+  return lens(function(y) { return _identityType(f(y)); })(x).value;
+});
