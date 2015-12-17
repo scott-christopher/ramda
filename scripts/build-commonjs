@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+REL_SCRIPT_DIR=$(dirname "$0")
+ABS_SCRIPT_DIR=$(cd "$REL_SCRIPT_DIR"; pwd -P)
+PROJECT_DIR=$(dirname "$ABS_SCRIPT_DIR")
+
+mkdir -p "$PROJECT_DIR/src/internal"
+
+for f in $PROJECT_DIR/es/*.js $PROJECT_DIR/es/internal/*.js; do
+  sed -e 's/import \(.*\) from \(.*\);/var \1 = require(\2);/g' \
+      -e 's/export default/module.exports =/' \
+      "$f" > "$PROJECT_DIR/src/${f#${PROJECT_DIR}/es/}"
+done

@@ -1,10 +1,14 @@
 {
   "env": {
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "es6": true
   },
   "globals": {
     "Symbol": true
+  },
+  "ecmaFeatures": {
+    "modules": true
   },
   "rules": {
     "no-eval": 2,
