@@ -1,5 +1,7 @@
 var _arity = require('./_arity');
+var _fnName = require('./_fnName');
 var _isPlaceholder = require('./_isPlaceholder');
+var _setFnName = require('./_setFnName');
 
 
 /**
@@ -13,7 +15,7 @@ var _isPlaceholder = require('./_isPlaceholder');
  * @return {Function} The curried function.
  */
 module.exports = function _curryN(length, received, fn) {
-  return function() {
+  return _setFnName(_fnName(fn), function() {
     var combined = [];
     var argsIdx = 0;
     var left = length;
@@ -36,5 +38,5 @@ module.exports = function _curryN(length, received, fn) {
     }
     return left <= 0 ? fn.apply(this, combined)
                      : _arity(left, _curryN(length, combined, fn));
-  };
+  });
 };

@@ -1,4 +1,6 @@
+var _fnName = require('./_fnName');
 var _isPlaceholder = require('./_isPlaceholder');
+var _setFnName = require('./_setFnName');
 
 
 /**
@@ -10,11 +12,12 @@ var _isPlaceholder = require('./_isPlaceholder');
  * @return {Function} The curried function.
  */
 module.exports = function _curry1(fn) {
-  return function f1(a) {
+  var curriedFn = _setFnName(_fnName(fn), function(a) {
     if (arguments.length === 0 || _isPlaceholder(a)) {
-      return f1;
+      return curriedFn;
     } else {
       return fn.apply(this, arguments);
     }
-  };
+  });
+  return curriedFn;
 };

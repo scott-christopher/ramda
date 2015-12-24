@@ -1,6 +1,8 @@
 var _curry1 = require('./_curry1');
 var _curry2 = require('./_curry2');
+var _fnName = require('./_fnName');
 var _isPlaceholder = require('./_isPlaceholder');
+var _setFnName = require('./_setFnName');
 
 
 /**
@@ -12,27 +14,29 @@ var _isPlaceholder = require('./_isPlaceholder');
  * @return {Function} The curried function.
  */
 module.exports = function _curry3(fn) {
-  return function f3(a, b, c) {
+  var fnName = _fnName(fn);
+  var curriedFn = _setFnName(fnName, function(a, b, c) {
     switch (arguments.length) {
       case 0:
-        return f3;
+        return curriedFn;
       case 1:
-        return _isPlaceholder(a) ? f3
-             : _curry2(function(_b, _c) { return fn(a, _b, _c); });
+        return _isPlaceholder(a) ? curriedFn
+             : _curry2(_setFnName(fnName, function(_b, _c) { return fn(a, _b, _c); }));
       case 2:
-        return _isPlaceholder(a) && _isPlaceholder(b) ? f3
-             : _isPlaceholder(a) ? _curry2(function(_a, _c) { return fn(_a, b, _c); })
-             : _isPlaceholder(b) ? _curry2(function(_b, _c) { return fn(a, _b, _c); })
-             : _curry1(function(_c) { return fn(a, b, _c); });
+        return _isPlaceholder(a) && _isPlaceholder(b) ? curriedFn
+             : _isPlaceholder(a) ? _curry2(_setFnName(fnName, function(_a, _c) { return fn(_a, b, _c); }))
+             : _isPlaceholder(b) ? _curry2(_setFnName(fnName, function(_b, _c) { return fn(a, _b, _c); }))
+             : _curry1(_setFnName(fnName, function(_c) { return fn(a, b, _c); }));
       default:
-        return _isPlaceholder(a) && _isPlaceholder(b) && _isPlaceholder(c) ? f3
-             : _isPlaceholder(a) && _isPlaceholder(b) ? _curry2(function(_a, _b) { return fn(_a, _b, c); })
-             : _isPlaceholder(a) && _isPlaceholder(c) ? _curry2(function(_a, _c) { return fn(_a, b, _c); })
-             : _isPlaceholder(b) && _isPlaceholder(c) ? _curry2(function(_b, _c) { return fn(a, _b, _c); })
-             : _isPlaceholder(a) ? _curry1(function(_a) { return fn(_a, b, c); })
-             : _isPlaceholder(b) ? _curry1(function(_b) { return fn(a, _b, c); })
-             : _isPlaceholder(c) ? _curry1(function(_c) { return fn(a, b, _c); })
+        return _isPlaceholder(a) && _isPlaceholder(b) && _isPlaceholder(c) ? curriedFn
+             : _isPlaceholder(a) && _isPlaceholder(b) ? _curry2(_setFnName(fnName, function(_a, _b) { return fn(_a, _b, c); }))
+             : _isPlaceholder(a) && _isPlaceholder(c) ? _curry2(_setFnName(fnName, function(_a, _c) { return fn(_a, b, _c); }))
+             : _isPlaceholder(b) && _isPlaceholder(c) ? _curry2(_setFnName(fnName, function(_b, _c) { return fn(a, _b, _c); }))
+             : _isPlaceholder(a) ? _curry1(_setFnName(fnName, function(_a) { return fn(_a, b, c); }))
+             : _isPlaceholder(b) ? _curry1(_setFnName(fnName, function(_b) { return fn(a, _b, c); }))
+             : _isPlaceholder(c) ? _curry1(_setFnName(fnName, function(_c) { return fn(a, b, _c); }))
              : fn(a, b, c);
     }
-  };
+  });
+  return curriedFn;
 };

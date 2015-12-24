@@ -1,5 +1,7 @@
 var _curry1 = require('./_curry1');
+var _fnName = require('./_fnName');
 var _isPlaceholder = require('./_isPlaceholder');
+var _setFnName = require('./_setFnName');
 
 
 /**
@@ -11,18 +13,20 @@ var _isPlaceholder = require('./_isPlaceholder');
  * @return {Function} The curried function.
  */
 module.exports = function _curry2(fn) {
-  return function f2(a, b) {
+  var fnName = _fnName(fn);
+  var curriedFn = _setFnName(fnName, function(a, b) {
     switch (arguments.length) {
       case 0:
-        return f2;
+        return curriedFn;
       case 1:
-        return _isPlaceholder(a) ? f2
-             : _curry1(function(_b) { return fn(a, _b); });
+        return _isPlaceholder(a) ? curriedFn
+             : _curry1(_setFnName(fnName, function(_b) { return fn(a, _b); }));
       default:
-        return _isPlaceholder(a) && _isPlaceholder(b) ? f2
-             : _isPlaceholder(a) ? _curry1(function(_a) { return fn(_a, b); })
-             : _isPlaceholder(b) ? _curry1(function(_b) { return fn(a, _b); })
+        return _isPlaceholder(a) && _isPlaceholder(b) ? curriedFn
+             : _isPlaceholder(a) ? _curry1(_setFnName(fnName, function(_a) { return fn(_a, b); }))
+             : _isPlaceholder(b) ? _curry1(_setFnName(fnName, function(_b) { return fn(a, _b); }))
              : fn(a, b);
     }
-  };
+  });
+  return curriedFn;
 };
